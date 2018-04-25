@@ -16,10 +16,10 @@ public class AccountPopulator implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Account account = new Account("My Account", 3000);
+		Account account = new Account("My Account", 3500);
 		accountRepo.save(account);
 		
-		Fund fund = new Fund("Emergency", account, 1000);
+		Fund fund = new Fund("Emergency", account, 2000);
 		fundRepo.save(fund);
 		
 		Fund fund2 = new Fund("Car", account, 1000);
