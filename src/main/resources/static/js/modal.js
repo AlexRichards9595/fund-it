@@ -4,13 +4,13 @@ submitDepositButton.addEventListener('click', editAccountDeposit)
 
 const submitWithdrawButton = document.querySelector('.amount-withdraw-button')
 submitWithdrawButton.addEventListener('click', editAccountWithdraw)
-//submit disable function here 
+//submit disable function here
 submitWithdrawButton.disabled = true;
 
 
 
 function toggleModalDeposit() {
-    modalDeposit.classList.toggle("show-modal");   
+    modalDeposit.classList.toggle("show-modal");
 }
 function toggleModalWithdraw() {
    modalWithdraw.classList.toggle("show-modal");
@@ -48,19 +48,19 @@ function editAccountDeposit(event) {
     const theButtonDeposit = event.target
     const amountDeposit = document.querySelector('#amountDeposit').value; // deposit to add
 
-    
+
     if (amountDeposit<0){
         console.log('Value too small')
         //event to gray out submit
-        //method needed in Java 
-        return 
+        //method needed in Java
+        return
 
     }
 
- 
-    
+
+
     let accountBalanceBeforeDeposit = document.querySelector('.accntAmnt')
-    
+
     let newAccntAmnt = +accountBalanceBeforeDeposit.innerText + +amountDeposit
     accountBalanceBeforeDeposit.innerText = newAccntAmnt.toFixed(2)
 
@@ -72,10 +72,10 @@ function editAccountDeposit(event) {
             console.log(xhrDeposit)
             const res = JSON.parse(xhrDeposit.response)
             console.log(res)
-            
+
             let editAccntDepositModal = document.querySelector(".modal-deposit")
             editAccntDepositModal.classList.toggle("show-modal");
-            
+
             document.querySelector('.defaultFundAmnt').textContent = res.unassignedFundAmount.toFixed(2)
             document.getElementById("amountDeposit").value = "";
         }
@@ -94,7 +94,7 @@ function withdrawModalPopulation(event){
         if (xhrPopulate.readyState === 4 && xhrPopulate.status === 200) {
             const res = JSON.parse(xhrPopulate.response)
             console.log(res)
-            
+
 
 
             const modalContentWithdraw = document.querySelector('.modal-content-withdraw')
@@ -111,10 +111,10 @@ function withdrawModalPopulation(event){
 
 
             const unAssignedFundFinder = document.querySelector('.defaultFundAmnt')
-            let innerTextToAdd = 'Unassigned Fund: $' + unAssignedFundFinder.innerText 
+            let innerTextToAdd = 'Unassigned Fund: $' + unAssignedFundFinder.innerText
             let unAssignedFund =  createElement('p', innerTextToAdd)
             unAssignedFund.classList.add('unassigned-fund')
-            
+
 
             console.log(modalContentWithdrawReplace)
 
@@ -136,17 +136,17 @@ function editAccountWithdraw(event) {
 
     let accountBalanceBeforeWithdraw = document.querySelector('.accntAmnt')// value in account balance
 
-    //logic to ensure that we do not overdraft 
+    //logic to ensure that we do not overdraft
     if (amountWithdraw > +accountBalanceBeforeWithdraw.innerText){
         console.log('Value too large')
         //event to gray out submit
-        //method needed in Java 
+        //method needed in Java
         return //exit function
     }
 
     //logic for fund allocation
-    // on blur 
-    
+    // on blur
+
     let accountBalanceAfterWithdraw = +accountBalanceBeforeWithdraw.innerText - +amountWithdraw
     accountBalanceBeforeWithdraw.innerText = accountBalanceAfterWithdraw.toFixed(2)
 
@@ -161,10 +161,10 @@ function editAccountWithdraw(event) {
         let fundId = fund.id
         let value = fund.value
         requestParams.push(fundId + '=' + value)// adds to an end array
-       
+
         // console.log(fundId)
         // console.log(formData.get(fundId))
-    }) 
+    })
 
      requestParamsString = requestParams.join('&') // take array of strings and cocatonate with &
 
@@ -175,12 +175,12 @@ function editAccountWithdraw(event) {
         if (xhrWithdraw.readyState === 4 && xhrWithdraw.status === 200) {
             const res = JSON.parse(xhrWithdraw.response)
             console.log(res)
-            
+
             let editAccntWithdrawModal = document.querySelector(".modal-withdraw")
             editAccntWithdrawModal.classList.toggle("show-modal");
 
-          document.querySelector('.defaultFundAmnt').textContent = res.unassignedFundAmount.toFixed(2)  
-          document.getElementById("amountWithdraw").value = "";  
+          document.querySelector('.defaultFundAmnt').textContent = res.unassignedFundAmount.toFixed(2)
+          document.getElementById("amountWithdraw").value = "";
           window.location.reload()
 
         }
@@ -227,18 +227,18 @@ function modalFundInformation(res) {
 
 function withdrawalInnerText(){
     // let withdrawUnassigned = document.querySelector('.unassigned-fund').innerText // value of unassigned
-    let amountWithdraw = document.querySelector('#amountWithdraw').value; //amount to withdraw 
+    let amountWithdraw = document.querySelector('#amountWithdraw').value; //amount to withdraw
 
     let unAssignedFundFinder = document.querySelector('.defaultFundAmnt')
     let withdrawUnassigned = unAssignedFundFinder.innerText
-    
+
     let amountNewWithdraw =  +withdrawUnassigned - +amountWithdraw
     //if negative turn unassigned funds to red and do not hit submit button
-    
+
     const unAssignedFundToAdd = document.createElement('p')
     unAssignedFundToAdd.classList.add('unassigned-fund')
 
-    let innerTextToAdd = 'Unassigned Fund: $' + amountNewWithdraw 
+    let innerTextToAdd = 'Unassigned Fund: $' + amountNewWithdraw
     unAssignedFundToAdd.innerText = innerTextToAdd
 
 
@@ -249,9 +249,9 @@ function withdrawalInnerText(){
         let modalAppend = document.querySelector('.modal-funds-holder')
         const lastChild = modalAppend.lastElementChild
         lastChild.replaceWith(unAssignedFundToAdd)
-        
+
         unAssignedFundToAdd.style.color = "red"
-        //submit unclickable --> function 
+        //submit unclickable --> function
         submitWithdrawButton.disabled = true
         console.log('too much')
         const childrenOfModalFunds = document.querySelectorAll('.input_fund_value_modal') //array
@@ -259,7 +259,7 @@ function withdrawalInnerText(){
         let fundSum = 0
         childrenOfModalFunds.forEach(function(elem){
           fundSum += +elem.value
-        }) 
+        })
 
         console.log(fundSum)
         console.log(amountNewWithdraw)
@@ -270,19 +270,19 @@ function withdrawalInnerText(){
             amountNewWithdraw +=fundSum
             console.log(+fundSum - -amountNewWithdraw)
 
-            innerTextToAdd = 'Unassigned Fund: $' + amountNewWithdraw 
+            innerTextToAdd = 'Unassigned Fund: $' + amountNewWithdraw
             unAssignedFundToAdd.innerText = innerTextToAdd
             unAssignedFundToAdd.style.color = "black"
 
             return
-        } 
+        }
 
         //update
         if (fundSum < Math.abs(amountNewWithdraw)){
             amountNewWithdraw +=fundSum
             console.log(+fundSum - -amountNewWithdraw)
 
-            innerTextToAdd = 'Unassigned Fund: $' + amountNewWithdraw 
+            innerTextToAdd = 'Unassigned Fund: $' + amountNewWithdraw
             unAssignedFundToAdd.innerText = innerTextToAdd
         }
         return
@@ -317,5 +317,3 @@ function appendElement(parent, child) {
     parent.appendChild(child)
 
 }
-
-
