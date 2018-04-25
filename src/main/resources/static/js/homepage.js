@@ -101,7 +101,7 @@ function selectHandler() {
 }
 
 window.addEventListener('load', evt => {
-	xhr1.open('GET', 'http://localhost:8080/account/1/funds', true);
+	xhr1.open('GET', '/account/1/funds', true);
 	xhr1.send();
 });
 function clickingOnFundName() {
